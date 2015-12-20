@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <title>Absolute Layout</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+        background-color: red;
+      }
+
+      main, section {
+        position: absolute;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+      }
+
+      main.design {
+        top: 10px;
+        right: 10px;
+        bottom: 10px;
+        left: 10px;
+        background-color: orange;
+      }
+
+      #index {
+        top: 10px;
+        left: 10px;
+        bottom: 50px;
+        width: 100px;
+        background-color: yellow;
+      }
+
+      section.panel {
+        top: 10px;
+        right: 10px;
+        bottom: 50px;
+        left: 120px;
+        background-color: lime;
+      }
+
+      section.toolbar {
+        height: 30px;
+        right: 10px;
+        bottom: 10px;
+        left: 10px;
+        background-color: blue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class='design'>
+      <section id='index'>index</section>
+      <section class='panel'>panel</section>
+      <section class='toolbar'>toolbar</section>
+    </main>
+  </body>
+<html>
