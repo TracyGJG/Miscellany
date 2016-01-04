@@ -1,0 +1,339 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="application-name" content="ColourScheme">
+		<meta name="description" content="Colour Scheme WCAG Checker">
+		<meta name="author" content="TGJG">
+		<title>Colour Scheme</title>
+		<style>
+			div {
+				display: inline-block;
+				width: 220px;
+				padding: 0.5em 0.25em;
+				margin: 0.5em;
+				font-size: 1.2em;
+				font-weight: bold;
+				text-align: center;
+				border: 2px solid black;
+			}
+			section {
+				left: 0;
+				right: 0;
+				display: block;
+				overflow: auto;
+			}
+			button {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+			}
+			@media screen {
+				main,
+				section {
+					display: inline-block;
+					min-width: 820px;
+				}
+				section {
+					padding: 0 10px;
+					border-top: 1px solid black;
+					overflow: auto;
+					position: absolute;
+				}
+				section.Scheme {
+					top: 120px;
+					bottom: 120px;
+				}
+				section.Links {
+					height: 120px;
+					bottom: 0;
+				}
+				.hide label,
+				.hide select {
+					display: none;
+				}
+				.hide section.Scheme {
+					top: 80px;
+				}
+			}
+			@media print {
+				div {
+					display: inline-block;
+					width: 220px;
+					padding: 0.25em;
+					margin: 0.25em 0.25em 0 0;
+					font-size: 1.2em;
+					font-weight: bold;
+					text-align: center;
+					border: 1px solid black;
+				}
+				hr {
+					page-break-after: always;
+				}
+				button,
+				label, select,
+				section.Links {
+					display: none;
+				}
+				section.Scheme {
+					top: 80px;
+				}
+				a {
+					color: #000;
+					text-decoration: none;
+				}
+			}
+		</style>
+		<script>
+			var objColourSchemes = {
+				"GOV.UK - Standard palette": {
+					"Default White": "#FFFFFF",
+					"Default Black": "#000000",
+
+					"MoD Brand": "#4d2942",
+					"govuk-blue": "#005ea5",
+					"Text": "#0B0C0C",
+					"Text secondary": "#6F777B",
+					"Page": "#FFF",
+					"Links": "#0B0C0C",
+					"Links hover": "#2e8aca",
+					"Links visited": "#4c2c92",
+					"Border": "#BFC1C3",
+					"Panel": "#DEE0E2",
+					"Highlight": "#F8F8F8",
+					"Button": "#00823B",
+					"Button": "#006435",
+					"Focus": "#FFBF47"
+				},
+				"GOV.UK - Standard palette, Status": {
+					"Default White": "#FFFFFF",
+					"Default Black": "#000000",
+
+					"Discovery": "#912b88",
+					"Alpha": "#d53880",
+					"Beta": "#f47738",
+					"Live": "#85994b",
+					"Error": "#af1324"
+				},
+				"GOV.UK - Standard palette, General": {
+					"Default White": "#FFFFFF",
+					"Default Black": "#000000",
+
+					"MoD Brand": "#4d2942",
+					"govuk-blue": "#005ea5",
+					"purple": "#2e358b",
+					"mauve": "#6f72af",
+					"fuschia": "#912b88",
+					"pink": "#d53880",
+					"baby-pink": "#f499be",
+					"red": "#b10e1e",
+					"mellow-red": "#df3034",
+					"orange": "#f47738",
+					"brown": "#b58840",
+					"yellow": "#ffbf47",
+					"grass-green": "#85994b",
+					"green": "#006435",
+					"turquoise": "#28a197",
+					"light-blue": "#2b8cc4"
+				},
+				"GOV.UK - Standard palette, greys": {
+					"Default White": "#FFFFFF",
+					"Default Black": "#000000",
+
+					"black": "#0b0c0c",
+					"grey-1": "#6f777b",
+					"grey-2": "#bfc1c3",
+					"grey-3": "#dee0e2",
+					"grey-4": "#f8f8f8",
+					"white": "#fff"
+				}
+			};
+		</script>
+	</head>
+
+	<body>
+		<main class='hide'>
+			<h1>Colour Scheme <a href='http://www.w3.org/TR/WCAG20/' target='blank'>WCAG 2.0</a> Conformance checker</h1>
+			<label>Available Schemes:</label>
+			<select>
+			</select>
+			<button>Print</button>
+
+			<section class='Scheme'></section>
+			<section class='Links'>
+				<h2>Useful Links</h2>
+				<ol>
+					<li><a href='http://www.w3.org/TR/WCAG20/' traget='blank'>Web Content Accessibility Guidelines (WCAG) 2.0, Dec 2008</a></li>
+					<li><a href='http://snook.ca/technical/colour_contrast/colour.html#fg=33FF33,bg=333333' traget='blank'>Snook.ca - Colour Contrast Check</a></li>
+				</ol>
+			</section>
+		</main>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				var objView = document.querySelector("section.Scheme");
+				var strSelectedScheme = "GOV.UK - Standard palette";
+				var strHash = location.hash;
+
+				if (strHash) {
+					strHash = strHash.replace(/^#/,"");
+					strHash = strHash.replace(/%20/g," ");
+					if (objColourSchemes[strHash]) {
+						strSelectedScheme = strHash;
+						document.querySelector("h1").innerHTML += (" ["+ strSelectedScheme+ "]");
+					}
+					else {
+						strHash = "";
+					}
+				}
+				if (!strHash) {
+					var objSelect = document.querySelector("select");
+					var objScheme, arrScheme=[];
+
+					for (objScheme in objColourSchemes) {
+						arrScheme.push( "<option value='"+ objScheme+ "'>"+ objScheme+"</option>");
+					}
+					objSelect.innerHTML = arrScheme.join("");
+					objSelect.addEventListener("change", function() {
+						objView.innerHTML = "<h2>Loading ....</h2>";
+						objView.innerHTML = presentPalette(objColourSchemes[this.value], this.value);
+					});
+					document.querySelector("main").classList.remove("hide");
+				}
+				document.querySelector("button").addEventListener("click", function() {
+					window.print();
+				});
+				objView.innerHTML = presentPalette(objColourSchemes[strSelectedScheme], strSelectedScheme);
+			});
+
+			function presentPalette( objPalette, strScheme) {
+				var arrHTML = [];
+				var numRating=1, numMaxRate=4;
+				var arrRatings = [
+					{	level:"<a href='http://www.w3.org/TR/WCAG20/#visual-audio-contrast7' target='blank' title='WCAG: 1.4.6 - Contrast (Enhanced)'>AAA</a>",
+						notes:"Suitable for All Text size and weight. (Delta &gt;= 7)"},
+					{	level:"<a href='http://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast' target='blank' title='WCAG: 1.4.3 - Contrast (Minimum)'>AA</a>, "+
+							"<a href='http://www.w3.org/TR/WCAG20/#visual-audio-contrast7' target='blank' title='WCAG: 1.4.6 - Contrast (Enhanced)'>AAA*</a>",
+						notes:"Suitable for all text at AA and large text at AAA. (Delta  &lt; 7 and &gt;= 4.5). "+
+							"Where 'Large text' is 18pt+ or 14pt+ in Bold font."},
+					{	level:"<a href='http://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast' target='blank' title='WCAG: 1.4.3 - Contrast (Minimum)'>AA*</a>",
+						notes:"Only suitable for large text at AA. (Delta &lt; 4.5 and &gt;= 3). "+
+							"Where 'Large text' is 18pt+ or 14pt+ in Bold font."}];
+				var objColour;
+
+				document.title = ("Colour Scheme ["+ strScheme+ "]");
+
+				arrHTML.push( generatePalette( objPalette));
+				for (; numRating<numMaxRate; numRating+=1) {
+					arrHTML.push( "<hr/>");
+					arrHTML.push( "<article><h2>"+ arrRatings[numRating-1].level+ "</h2>");
+					for (objColour in objPalette) {
+						arrHTML.push( generateCombo( objPalette, objColour, numRating%4));
+					}
+					arrHTML.push( "<h3>"+ arrRatings[numRating-1].notes+ "</h3></article>");
+				}
+				return arrHTML.join("");
+			}
+
+			function generatePalette( objPalette) {
+				var arrHTML = ["<article><h2>Colour Palette</h2>"];
+				var strHTML = "<div style='background-color:#BACK; color:#TEXT;'>#CONTENT</div>";
+				var objColour, objColIndex;
+				var strContrast;
+
+				if (!objPalette["Default White"].hex) {
+					for (objColIndex in objPalette) {
+						objPalette[objColIndex] = { hex: expandTo6DigitHexWithPrefix( objPalette[objColIndex])};
+					}
+				}
+
+				for (objColIndex in objPalette) {
+					objColour = objPalette[objColIndex];
+					objColour.lum = calculateLuminosity( objColour.hex);
+					strContrast = objPalette[(objColour.lum<0.45)? "Default White": "Default Black"].hex;
+					arrHTML.push( strHTML.
+						replace(/#BACK/, objColour.hex).
+						replace(/#TEXT/, strContrast).
+						replace(/#CONTENT/, (objColIndex+ "<br/>("+objColour.hex+ ")<br/>"+ objColour.lum)));
+				}
+				arrHTML.push( "</article>");
+				return arrHTML.join("");
+			}
+
+			function expandTo6DigitHexWithPrefix( strHex) {
+				var arrHex = ["#"];
+				var strCode = strHex.replace(/^#/,"");
+
+				if (strCode.length === 6) {
+					arrHex.push( strCode);
+				}
+				else { // Assume 3-digit
+					arrHex.push( strCode[0]);
+					arrHex.push( strCode[0]);
+					arrHex.push( strCode[1]);
+					arrHex.push( strCode[1]);
+					arrHex.push( strCode[2]);
+					arrHex.push( strCode[2]);
+				}
+				return arrHex.join("");
+			}
+
+			function generateCombo( objPalette, objBackColour, numRating) {
+				var arrHTML = [];
+				var strHTML = "<div style='background-color:#BACK; color:#TEXT;'>#CONTENT</div>";
+				var objColour, objColIndex;
+				var objRelLum;
+
+				for (objColIndex in objPalette) {
+					if (objBackColour !== objColIndex) {
+						objColour = objPalette[objColIndex];
+						objRelLum = calcRelLum(objColour.lum, objPalette[objBackColour].lum);
+						if (objRelLum.numWCAG === numRating) {
+							arrHTML.push( strHTML.
+								replace(/#BACK/, objPalette[objBackColour].hex).
+								replace(/#TEXT/, objColour.hex).
+								replace(/#CONTENT/, (objColIndex+ "<br/>on "+ objBackColour+ "<br/>Relative Luminosity: "+ objRelLum.numRelLum)));
+						}
+					}
+				}
+				return arrHTML.join("");
+			}
+
+			function calculateLuminosity( strColourHexCode) {
+				var numRed = parseInt(strColourHexCode.substr(1, 2), 16)/255;
+				var numGreen = parseInt(strColourHexCode.substr(3, 2), 16)/255;
+				var numBlue = parseInt(strColourHexCode.substr(5, 2), 16)/255;
+				var numRedLum = calcFactorLum(numRed);
+				var numGreenLum = calcFactorLum(numGreen);
+				var numBlueLum = calcFactorLum(numBlue);
+
+				return numRedLum*0.2126 + numGreenLum*0.7152+ numBlueLum*0.0722;
+			}
+
+			function calcFactorLum( numCol) {
+				return (numCol<=0.03928)? (numCol/12.92): Math.pow(((numCol+0.055)/1.055),2.4);
+			}
+
+			function calcRelLum( numForeground, numBackground) {
+				var numTypicalViewingFlare = 0.05;
+				var numHighLum = Math.max(numForeground, numBackground);
+				var numLowLum = Math.min(numForeground, numBackground);
+				var numRelLum = ((numHighLum + numTypicalViewingFlare) / (numLowLum + numTypicalViewingFlare))*10;
+				numRelLum = Math.floor(numRelLum)/10;
+				var numWCAG = (numRelLum>=7)? 1: (
+					(numRelLum>=4.5)? 2: (
+						(numRelLum>=3)? 3: 0
+					)
+				);
+
+				return {
+					numRelLum: numRelLum,
+					numWCAG: numWCAG
+				};
+			}
+		</script>
+	</body>
+</html>
