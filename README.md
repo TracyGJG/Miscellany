@@ -7,7 +7,7 @@
 
 ## Skeleton applications (html)
 * RAD_Skeleton: JavaScript dev/test harness
-* UI_Skeleton:  User Interface dav/test harness
+* UI_Skeleton:  User Interface dev/test harness
 
 ## Single-Page utilities (HTA)
 * APP_Skeleton: MS HTML application containing useful MS controls
