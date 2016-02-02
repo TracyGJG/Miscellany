@@ -1,0 +1,15 @@
+<script>
+  alert(
+		decToHex(parseInt(prompt('Hex','abcdef'),16))
+  );
+
+  function decToHex(pnumDec) {
+  	var strHexdec='0123456789ABCDEF';
+  	var numDec=parseInt(pnumDec,10);
+  	var _decToHex=function(numDec,strHex) {
+			return (numDec)? _decToHex( parseInt(numDec/16,10),
+				strHexdec.substr(numDec%16,1)+ strHex): strHex;
+  	};
+  	return numDec? _decToHex(numDec,''): 0;
+  }
+</script>
