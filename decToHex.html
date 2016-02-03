@@ -1,5 +1,6 @@
 <!doctype html>
 <html><head>
+	<title>decToHex sampler and test cases</title>
 </head><body>
 	<table border='1'>
 		<tr><th>Test case</th><th>Result</th></tr>
@@ -38,7 +39,7 @@
 
 			for(; numTest<numTests; numTest+=1) {
 				arrTests[numTest].childNodes[1].innerText =
-					decToHex( parseInt(arrTests[numTest].childNodes[0].innerText, 10));
+					decToHex( arrTests[numTest].childNodes[0].innerText);
 			}
 
 		}, false);
