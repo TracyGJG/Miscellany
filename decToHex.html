@@ -24,10 +24,10 @@
 			var numHexLen = pnumHexLen || 6;
 			var strHexPad = '0'.repeat(numHexLen);
 			var ptnHexTrim = new RegExp('.{'+ numHexLen+ '}$');
-			var _decToHex=function(numDec,strHex) {
+			function _decToHex(numDec,strHex) {
 				return (numDec)? _decToHex( parseInt(numDec/16,10),
 					strHexdec.substr(numDec%16,1)+ strHex): strHex;
-			};
+			}
 			return isNaN(numDec)? null: (strHexPad+ _decToHex(
 				numDec + ((numDec<0) * Math.pow(16,numHexLen)),
 			'')).match(ptnHexTrim)[0];
@@ -41,7 +41,6 @@
 				arrTests[numTest].childNodes[1].innerText =
 					decToHex( arrTests[numTest].childNodes[0].innerText);
 			}
-
 		}, false);
 	</script>
 </body></html>
