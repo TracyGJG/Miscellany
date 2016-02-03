@@ -1,15 +1,46 @@
-<script>
-  alert(
-		decToHex(parseInt(prompt('Hex','abcdef'),16))
-  );
+<!doctype html>
+<html><head>
+</head><body>
+	<table border='1'>
+		<tr><th>Test case</th><th>Result</th></tr>
+		<tr><td></td><td></td></tr>
+		<tr><td>A</td><td></td></tr>
+		<tr><td>0</td><td></td></tr>
+		<tr><td>1</td><td></td></tr>
+		<tr><td>255</td><td></td></tr>
+		<tr><td>65280</td><td></td></tr>
+		<tr><td>16711680</td><td></td></tr>
+		<tr><td>15728639</td><td></td></tr>
+		<tr><td>-1</td><td></td></tr>
+		<tr><td>-15728639</td><td></td></tr>
+		<tr><td>-15728640</td><td></td></tr>
+	</table>
 
-  function decToHex(pnumDec) {
-  	var strHexdec='0123456789ABCDEF';
-  	var numDec=parseInt(pnumDec,10);
-  	var _decToHex=function(numDec,strHex) {
-			return (numDec)? _decToHex( parseInt(numDec/16,10),
-				strHexdec.substr(numDec%16,1)+ strHex): strHex;
-  	};
-  	return numDec? _decToHex(numDec,''): 0;
-  }
-</script>
+	<script>
+		function decToHex(pnumDec, pnumHexLen) {
+			var strHexdec='0123456789ABCDEF';
+			var numDec=parseInt(pnumDec,10);
+			var numHexLen = pnumHexLen || 6;
+			var strHexPad = '0'.repeat(numHexLen);
+			var ptnHexTrim = new RegExp('.{'+ numHexLen+ '}$');
+			var _decToHex=function(numDec,strHex) {
+				return (numDec)? _decToHex( parseInt(numDec/16,10),
+					strHexdec.substr(numDec%16,1)+ strHex): strHex;
+			};
+			return isNaN(numDec)? null: (strHexPad+ _decToHex(
+				numDec + ((numDec<0) * Math.pow(16,numHexLen)),
+			'')).match(ptnHexTrim)[0];
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			var arrTests = document.querySelectorAll("tr");
+			var numTest=1, numTests=arrTests.length;
+
+			for(; numTest<numTests; numTest+=1) {
+				arrTests[numTest].childNodes[1].innerText =
+					decToHex( parseInt(arrTests[numTest].childNodes[0].innerText, 10));
+			}
+
+		}, false);
+	</script>
+</body></html>
