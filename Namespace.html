@@ -1,0 +1,89 @@
+<script>
+
+function outer() {
+    var message = 'hello world';
+
+    function inner() {
+        alert( message);
+    }
+
+    return inner;
+}
+
+var helloClosure = outer();
+
+//helloClosure();
+
+
+//##############################
+
+
+var reference = function() {
+    // anonymous, nameless, lambda function.
+};
+
+
+var named = function onymous() {
+    // named function.
+};
+
+//alert( named.name !== '');
+//alert( reference.name === '');
+
+
+//##############################
+
+
+var iify= (
+    function() {
+        return 'hello world';
+    }
+    )();
+
+//alert( iify);
+
+
+//##############################
+
+/*
+var definition=
+	function() {
+		var privateData = 'HELLO WORLD';
+
+		function privateFunction() {
+			return privateData;
+		}
+
+		function publicFunction() {
+			return privateFunction().toLowerCase();
+		}
+
+		return {
+			getData: publicFunction
+		};
+	};
+
+var namespace = definition();
+*/
+
+
+var namespace= (
+	function() {
+    var privateData = 'HELLO WORLD';
+
+		function privateFunction() {
+			return privateData;
+    }
+
+    function publicFunction() {
+      return privateFunction().toLowerCase();
+		}
+
+    return {
+	    getData: publicFunction
+    };
+})();
+
+alert( namespace.getData());
+
+</script>
