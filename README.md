@@ -1,11 +1,12 @@
-# Miscellaneous collection of JavaScript samplers and skeleton applications.
+# Miscellaneous collection of JavaScript samplers and skeleton applications
 
+---
 
 ## Samplers (htm)
 * ABS_Layout: Absolute Layout
 * ColourScheme: Exercising of Colour Scheme WCAG Conformance
 * decToHex: is a function that converts a decimal value (positive or negative) and returns the hexadecimal equivalent.
-* Namespace.html: Examples used to demonstrate how to establish a namespace to protect javaScript code.
+* Namespace.html: Examples used to demonstrate how to establish a namespace to protect JavaScript code.
 
 ## Skeleton applications (html)
 * RAD_Skeleton: JavaScript dev/test harness
