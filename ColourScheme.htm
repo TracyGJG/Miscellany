@@ -115,15 +115,17 @@
 					"Text": "#0B0C0C",
 					"Text secondary": "#6F777B",
 					"Page": "#FFF",
-					"Links": "#0B0C0C",
-					"Links hover": "#2e8aca",
+					"Links": "#005ea5",
 					"Links visited": "#4c2c92",
+					"Links hover": "#2e8aca",
+					"Links active": "#2b8cc4",
 					"Border": "#BFC1C3",
 					"Panel": "#DEE0E2",
 					"Highlight": "#F8F8F8",
-					"Button": "#00823B",
+					"Button": "#00823b",
 					"Button": "#006435",
-					"Focus": "#FFBF47"
+					"Focus": "#FFBF47",
+					"Alert": "#B10E1E"
 				},
 				"GOV.UK - Standard palette, Status": {
 					"Default White": "#FFFFFF",
@@ -217,7 +219,11 @@
 					var objScheme, arrScheme=[];
 
 					for (objScheme in objColourSchemes) {
-						arrScheme.push( "<option value='"+ objScheme+ "'>"+ objScheme+"</option>");
+						arrScheme.push( "<option value='"+ objScheme+ "'");
+						if (strSelectedScheme === objScheme) {
+							arrScheme.push(" selected='selected'");
+						}
+						arrScheme.push( ">"+ objScheme+"</option>");
 					}
 					objSelect.innerHTML = arrScheme.join("");
 					objSelect.addEventListener("change", function() {
@@ -280,7 +286,9 @@
 					arrHTML.push( strHTML.
 						replace(/#BACK/, objColour.hex).
 						replace(/#TEXT/, strContrast).
-						replace(/#CONTENT/, (objColIndex+ "<br/>("+objColour.hex+ ")<br/>"+ objColour.lum)));
+						replace(/#CONTENT/, (objColIndex+ "<br/>("+
+							objColour.hex+ ")<br/>Luminosity: "+
+							roundToSignificantDigits(objColour.lum,5))));
 				}
 				arrHTML.push( "</article>");
 				return arrHTML.join("");
@@ -318,7 +326,9 @@
 							arrHTML.push( strHTML.
 								replace(/#BACK/, objPalette[objBackColour].hex).
 								replace(/#TEXT/, objColour.hex).
-								replace(/#CONTENT/, (objColIndex+ "<br/>on "+ objBackColour+ "<br/>Relative Luminosity: "+ objRelLum.numRelLum)));
+								replace(/#CONTENT/, (objColIndex+ "<br/>on "+
+									objBackColour+ "<br/>Relative Luminosity: "+
+									roundToSignificantDigits(objRelLum.numRelLum,5))));
 						}
 					}
 				}
@@ -340,12 +350,17 @@
 				return (numCol<=0.03928)? (numCol/12.92): Math.pow(((numCol+0.055)/1.055),2.4);
 			}
 
+			function roundToSignificantDigits( numSubject, numSignificantDigits) {
+				return numSubject.toFixed(numSignificantDigits);
+			}
+
 			function calcRelLum( numForeground, numBackground) {
 				var numTypicalViewingFlare = 0.05;
 				var numHighLum = Math.max(numForeground, numBackground);
 				var numLowLum = Math.min(numForeground, numBackground);
-				var numRelLum = ((numHighLum + numTypicalViewingFlare) / (numLowLum + numTypicalViewingFlare))*10;
-				numRelLum = Math.floor(numRelLum)/10;
+				var numRelLum = roundToSignificantDigits(
+					(numHighLum + numTypicalViewingFlare)/
+					(numLowLum + numTypicalViewingFlare), 1);
 				var numWCAG = (numRelLum>=7)? 1: (
 					(numRelLum>=4.5)? 2: (
 						(numRelLum>=3)? 3: 0
