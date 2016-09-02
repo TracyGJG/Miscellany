@@ -1,27 +1,37 @@
 <!doctype html>
 <html><head>
 	<title>decToHex sampler and test cases</title>
+	<style>
+		td {
+			font-family: courier;
+			text-align: right;
+		}
+	</style>
 </head><body>
 	<table border='1'>
-		<tr><th>Test case</th><th>Result</th></tr>
-		<tr><td></td><td></td></tr>
-		<tr><td>A</td><td></td></tr>
-		<tr><td>0</td><td></td></tr>
-		<tr><td>1</td><td></td></tr>
-		<tr><td>255</td><td></td></tr>
-		<tr><td>65280</td><td></td></tr>
-		<tr><td>16711680</td><td></td></tr>
-		<tr><td>15728639</td><td></td></tr>
-		<tr><td>-1</td><td></td></tr>
-		<tr><td>-15728639</td><td></td></tr>
-		<tr><td>-15728640</td><td></td></tr>
+		<tr><th>Test case</th><th>WORD</th><th>DWORD</th><th>Decimal</th></tr>
+		<tr><td></td><td></td><td></td><td></td></tr>
+		<tr><td>A</td><td></td><td></td><td></td></tr>
+		<tr><td>0</td><td></td><td></td><td></td></tr>
+		
+		<tr><td>1</td><td></td><td></td><td></td></tr>
+		<tr><td>-1</td><td></td><td></td><td></td></tr>
+		<tr><td>-2</td><td></td><td></td><td></td></tr>
+		
+		<tr><td>255</td><td></td><td></td><td></td></tr>
+		<tr><td>-255</td><td></td><td></td><td></td></tr>
+		<tr><td>-256</td><td></td><td></td><td></td></tr>
+		
+		<tr><td>32767</td><td></td><td></td><td></td></tr>
+		<tr><td>-32767</td><td></td><td></td><td></td></tr>
+		<tr><td>-32768</td><td></td><td></td><td></td></tr>
 	</table>
 
 	<script>
 		function decToHex(pnumDec, pnumHexLen) {
 			var strHexdec='0123456789ABCDEF';
 			var numDec=parseInt(pnumDec,10);
-			var numHexLen = pnumHexLen || 6;
+			var numHexLen = pnumHexLen || 4;
 			var strHexPad = '0'.repeat(numHexLen);
 			var ptnHexTrim = new RegExp('.{'+ numHexLen+ '}$');
 			function _decToHex(numDec,strHex) {
@@ -36,10 +46,14 @@
 		document.addEventListener('DOMContentLoaded', function() {
 			var arrTests = document.querySelectorAll("tr");
 			var numTest=1, numTests=arrTests.length;
+			var strDec, strHex;
 
 			for(; numTest<numTests; numTest+=1) {
-				arrTests[numTest].childNodes[1].innerText =
-					decToHex( arrTests[numTest].childNodes[0].innerText);
+				strDec= arrTests[numTest].childNodes[0].innerText;
+				arrTests[numTest].childNodes[1].innerText= decToHex( strDec);
+				strHex= decToHex( strDec, 8);
+				arrTests[numTest].childNodes[2].innerText= strHex;
+				arrTests[numTest].childNodes[3].innerText= parseInt(strHex, 16);
 			}
 		}, false);
 	</script>
