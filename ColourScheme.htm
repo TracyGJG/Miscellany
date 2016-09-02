@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<meta name="application-name" content="ColourScheme">
@@ -10,6 +10,9 @@
 		<meta name="author" content="TGJG">
 		<title>Colour Scheme</title>
 		<style>
+			div a {
+				color: inherit;
+			}
 			div {
 				display: inline-block;
 				width: 220px;
@@ -326,9 +329,10 @@
 							arrHTML.push( strHTML.
 								replace(/#BACK/, objPalette[objBackColour].hex).
 								replace(/#TEXT/, objColour.hex).
-								replace(/#CONTENT/, (objColIndex+ "<br/>on "+
-									objBackColour+ "<br/>Relative Luminosity: "+
-									roundToSignificantDigits(objRelLum.numRelLum,5))));
+								replace(/#CONTENT/, (objColIndex+ "<br/>on "+ objBackColour+
+									"<br/><a href='https://snook.ca/technical/colour_contrast/colour.html#fg="+ objColour.hex +
+									",bg="+ objPalette[objBackColour].hex +"'>Relative Luminosity</a>: "+
+									roundToSignificantDigits(objRelLum.numRelLum,1))));
 						}
 					}
 				}
@@ -351,7 +355,7 @@
 			}
 
 			function roundToSignificantDigits( numSubject, numSignificantDigits) {
-				return numSubject.toFixed(numSignificantDigits);
+				return Number(numSubject).toFixed(numSignificantDigits);
 			}
 
 			function calcRelLum( numForeground, numBackground) {
