@@ -1,0 +1,6 @@
+{
+  "name": "Miscellany",
+  "tagline": "A miscellaneous collection of JavaScript samplers",
+  "body": "# Miscellaneous collection of JavaScript samplers and skeleton applications\r\n\r\n---\r\n\r\n## Samplers (htm)\r\n* ABS_Layout: Absolute Layout\r\n* ColourScheme: Exercising of Colour Scheme WCAG Conformance\r\n* decToHex: is a function that converts a decimal value (positive or negative) and returns the hexadecimal equivalent.\r\n* Namespace.html: Examples used to demonstrate how to establish a namespace to protect JavaScript code.\r\n\r\n## Skeleton applications (html)\r\n* RAD_Skeleton: JavaScript dev/test harness\r\n* UI_Skeleton:  User Interface dev/test harness\r\n\r\n## Single-Page utilities (HTA)\r\n* APP_Skeleton: MS HTML application containing useful MS controls\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
